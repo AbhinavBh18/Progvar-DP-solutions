@@ -1,0 +1,67 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+#define int long long
+#define ld long double
+#define sza(x) ((int)x.size())
+#define all(a) (a).begin(), (a).end()
+#define input(a, n) for(int i = 0; i < n; i++) cin >> a[i];
+#define vi vector<int>
+#define pb push_back
+#define ppb pop_back
+#define ff first
+#define ss second
+#define set_bits __builtin_popcountll
+#define rall(n) n.rbegin(), n.rend()
+
+const int MAX_N = 1e5 + 5;
+const int MOD = 1e9 + 7;
+const int INF = 1e9;
+const ld EPS = 1e-9;
+/*
+        DP type :- MCM
+*/
+void solve() {
+        int l; cin >> l;
+        if(l==0) {
+                return;
+        }
+        int n; cin >> n;
+        vi cuts(n);
+        input(cuts,n);
+        cuts.pb(0);
+        cuts.pb(l);
+        sort(all(cuts));
+        if (n == 1) {
+                cout << l;
+                return;
+        }
+        vector<vi> dp(n+5,vi(n+5,0));
+        for(int i=n;i>=1;i--){
+                for(int j=1;j<=n;j++){
+                        int mini=1e9;
+                        if(i>j) continue;
+                        for(int ind=i;ind<=j;ind++){
+                                int cost=cuts[j+1]-cuts[i-1]+dp[i][ind-1]+dp[ind+1][j];
+                                mini=min(mini,cost);
+                        }
+                        dp[i][j]=mini;
+                        
+                }
+        }
+        cout<<dp[1][n];
+        
+}
+
+signed main() {
+        ios::sync_with_stdio(0);
+        cin.tie(0);
+        cout.tie(0);
+        int tc = 1;
+        // cin >> tc;
+        for (int t = 1; t <= tc; t++) {
+                solve();
+        }
+        return 0;
+}
